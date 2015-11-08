@@ -3,7 +3,7 @@ var router = express.Router();
 var path = require('path');
 var pg = require('pg');
 
-var connectionString = process.env.DATABASE_URL  || 'postgres://localhost:5432/message_board';
+var connectionString = process.env.DATABASE_URL + "?ssl=true" || 'postgres://localhost:5432/message_board';
 //+ "?ssl=true"
 
 router.route('/').post(function (req, res) {
