@@ -1,0 +1,7 @@
+.name{
+  border-bottom: 2px solid rgb(166, 193, 207);
+}
+input{
+  display: block;
+  margin-bottom: 10px;
+}
