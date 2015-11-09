@@ -3,7 +3,7 @@ var router = express.Router();
 var path = require('path');
 var pg = require('pg');
 
-var connectionString = process.env.DATABASE_URL + "?ssl=true" || 'postgres://localhost:5432/message_board';
+var connectionString = process.env.DATABASE_URL   || 'postgres://localhost:5432/message_board';
 //+ "?ssl=true"
 
 router.route('/').post(function (req, res) {
@@ -33,6 +33,21 @@ router.route('/').post(function (req, res) {
                         res.json(results);
                       });
                     });
+                  })
+                  .delete(function (req,res) {
+                    console.log(req.body.id);
+                    var queryString = 'DELETE from messages where id = $1';
+                    pg.connect(connectionString,function (err, client, done) {
+                        client.query(queryString, [req.body.id],function (err, result) {
+                          if (err){
+                            console.log('error on delete', err);
+                            res.send(false);
+                          }else{
+                            res.send(true);
+                          }
+                        });
+                    });
+
                   });
 
 module.exports = router;

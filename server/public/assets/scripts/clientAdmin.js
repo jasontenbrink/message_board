@@ -1,23 +1,21 @@
 var messages = [];
-
 $(document).ready(function () {
+  console.log('hi');
   getData();
-  $('#submitMessageForm').on('submit',submitMessageForm);
+  $('#postMessages').on('click', 'a', clickDelete);
 });
 
-
-function submitMessageForm() {
+function clickDelete() {
   event.preventDefault();
-  var values = {};
-  $.each($(this).serializeArray(), function(i, field){
-     values[field.name] = field.value;
-  });
+  console.log( $(this).parent().data('id'));
+
+  var idToDelete = {id: $(this).parent().data('id')};
   $.ajax({
-    type: "POST",
-    url: "/data",
-    data: values,
+    type: 'DELETE',
+    url: '/data',
+    data: idToDelete,
     success: function (data) {
-      console.log('POST complete');
+      console.log('delete successful', data);
       getData();
     }
   });
@@ -34,10 +32,12 @@ function getData() {
 }
 
 function displayMessages() {
+  $('#postMessages').empty();
   for (var i = 0; i < messages.length; i++) {
-    $('#postMessages').append('<div class="well" data-id="' + messages[i].id + '"></div>');
+    $('#postMessages').append('<div class="well col-md-5" data-id="' + messages[i].id + '"></div>');
     var el$ = $('#postMessages').children().last();
     el$.append('<p class="name">' + messages[i].name + ' says:</p>');
     el$.append('<p>' + messages[i].message + '</p>');
+    el$.append('<a>Delete</a>');
   }
 }
