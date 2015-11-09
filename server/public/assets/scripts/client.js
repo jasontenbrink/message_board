@@ -34,6 +34,7 @@ function getData() {
 }
 
 function displayMessages() {
+  $('#postMessages').empty();
   for (var i = 0; i < messages.length; i++) {
     $('#postMessages').append('<div class="well" data-id="' + messages[i].id + '"></div>');
     var el$ = $('#postMessages').children().last();
